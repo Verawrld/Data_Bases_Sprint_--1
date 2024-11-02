@@ -1,0 +1,50 @@
+Explanation of 3NF (Third Normal Form)
+    -A table is in Third Normal Form (3NF) if:
+
+        1 .It is in Second Normal Form (2NF).
+        2. It has no transitive dependencies, meaning non-prime attributes are not dependent on other non-prime attributes.
+
+CREATE TABLE Movies (
+    movie_id SERIAL PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    release_year INT NOT NULL,
+    genre VARCHAR(50) NOT NULL,
+    director VARCHAR(255) NOT NULL
+);
+
+1NF: Each column contains atomic values, and each row is unique.
+2NF: There is a single-column primary key (movie_id), and all non-key attributes are fully functionally dependent on the primary key.
+3NF: There are no transitive dependencies. Attributes like title, release_year, genre, and director depend only on the primary key (movie_id).
+
+
+CREATE TABLE Customers (
+    customer_id SERIAL PRIMARY KEY,
+    first_name VARCHAR(255) NOT NULL,
+    last_name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    phone_number TEXT NOT NULL
+);
+
+1NF: Each column contains atomic values, and each row is unique.
+2NF: There is a single-column primary key (customer_id), and all non-key attributes are fully functionally dependent on the primary key.
+3NF: There are no transitive dependencies. Attributes like first_name, last_name, email, and phone_number depend only on the primary key (customer_id).
+
+CREATE TABLE Rentals (
+    rental_id SERIAL PRIMARY KEY,
+    customer_id INT REFERENCES Customers(customer_id),
+    movie_id INT REFERENCES Movies(movie_id),
+    rental_date DATE NOT NULL,
+    return_date DATE
+);
+
+        -1NF: Each column contains atomic values, and each row is unique.
+        -2NF: There is a single-column primary key (rental_id), and all non-key attributes are fully functionally dependent on the primary key.
+        -3NF: There are no transitive dependencies. Attributes like customer_id, movie_id, rental_date, and return_date depend only on the primary key (rental_id).
+
+
+Conclusion
+    Each table (Movies, Customers, and Rentals) is in 3NF because:
+
+        - They are in 1NF (each column contains atomic values, and each row is unique).
+        - They are in 2NF (all non-key attributes are fully functionally dependent on the primary key).
+        - They are in 3NF (there are no transitive dependencies among the non-key attributes).
